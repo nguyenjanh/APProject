@@ -1,0 +1,185 @@
+package onlineBanking;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Main {
+
+	public static int randomBankID(int num) {
+		return (int) Math.pow(10, num) + (int) ((Math.random() * Math.pow(10, num)) + 0.5);
+	}
+	
+	public static String systemMessage(int num) {
+		
+		if (num == 1)
+			return "That was not a valid command.\n";
+		
+		if (num == 2)
+			return "Seems like your username or password was incorrect. You will now be sent to the home page.\n";
+		
+		if (num == 3)
+			return "Please type in the amount you'd like to withdraw.";
+		
+		if (num == 4)
+			return "Please type in the amount you'd like to deposit.";
+		
+		return "";
+	}
+	
+	@SuppressWarnings({ "resource" })
+	public static void main(String[] args) {
+		
+		boolean loggingOut = false;
+		
+		ArrayList<userInfo> bankClients = new ArrayList<userInfo>();
+		
+		//preregistered users to allow for admin functionality demonstration
+		userInfo preReg1 = new userInfo("user1", "pass1", 189533, 543.87, 593.34);
+		
+		bankClients.add(preReg1);
+		
+		//loops until the user enters the log out command
+		while (1 == 1) {
+					
+			//begins the login/registration process
+			Scanner startUp = new Scanner(System.in);
+			System.out.println("Welcome to the Bank of AP. Please type in the corresponding number to what you'd like to do. \n1. Register an account\n2. Log in\n3. Close the program");
+			String userCommand = startUp.nextLine();
+			
+			if (userCommand.equals("1")) { //registering an account
+			
+				userInfo newUser = new userInfo();
+			
+				//set username
+				Scanner registerUser = new Scanner(System.in);
+				System.out.println("Enter a username.");
+				newUser.setUsername(registerUser.nextLine());
+			
+				//set password
+				registerUser = new Scanner(System.in);
+				System.out.println("Enter a password.");
+				newUser.setPassword(registerUser.nextLine());
+			
+				//set unique 6 digit bank ID # and balances
+				newUser.setBankID(randomBankID(5));
+				newUser.setCheckingBal(0);
+				newUser.setSavingsBal(0);
+			
+				//repeats user information
+				System.out.println("Your username is : " + newUser.getUsername() + "\n" + "Your password is : " + newUser.getPassword() + "\n" + "Your unique 6 digit Bank ID # is : " + newUser.getBankID() + "\n");
+				
+				bankClients.add(newUser);
+			
+			} else if (userCommand.equals("2")) { //log in
+				
+				//takes in username as an input
+				Scanner readCommand = new Scanner(System.in);
+				System.out.println("Please enter your username.");
+				userCommand = readCommand.nextLine();
+				
+				//log in for users
+				for (int a = 0; a < bankClients.size(); a++) {
+					//checks for correct username
+					if (userCommand.equals(bankClients.get(a).getUsername())) {
+						
+						//sets the temp variable as the selected user to easily modify values
+						userInfo currentUser = bankClients.get(a);
+						//checks for correct password
+						System.out.println("Please enter your password.");
+						userCommand = readCommand.nextLine();
+						
+						if (userCommand.equals(currentUser.getPassword())) {
+							
+							System.out.println("Log in successful. What would you like to do today?");
+							
+							while (1 == 1) {
+							
+								System.out.println("Please type in the corresponding number to what you'd like to do. \n1. Manage Checking Account\n2. Manage Savings Account\n3. Change Username\n4. Change Password\n5. View Bank ID#\n6. Log Out");
+							
+								//reads command
+								readCommand = new Scanner(System.in);
+								userCommand = readCommand.nextLine();
+							
+								//available commands for the user
+								if (userCommand.equals("1")) { //manage checking
+									
+									System.out.println("Your current balance is : $" + currentUser.getCheckingBal() + ". What would you like to do today?\n1. Deposit Funds\n2. Withdraw Funds\n3. Return to menu");
+								
+									//reads command
+									readCommand = new Scanner(System.in);
+									userCommand = readCommand.nextLine();
+								
+									if (userCommand.equals("1")) { //deposit funds
+									
+										System.out.println(systemMessage(4));
+										readCommand = new Scanner(System.in);
+										userCommand = readCommand.nextLine();
+										currentUser.setCheckingBal(currentUser.getCheckingBal() + Double.parseDouble(userCommand));
+									
+										System.out.println("Your new balance is $" + currentUser.getCheckingBal());
+									
+									} else if (userCommand.equals("2")) { //withdraw funds
+									
+										System.out.println(systemMessage(3));
+										readCommand = new Scanner(System.in);
+										userCommand = readCommand.nextLine();
+										currentUser.setCheckingBal(currentUser.getCheckingBal() - Double.parseDouble(userCommand));
+									
+										System.out.println("Your new balance is $" + currentUser.getCheckingBal());
+									
+									} else if (userCommand.equals("3")) { //return
+									
+										System.out.println("\n");
+									
+									} else { systemMessage(1); } //if user inputs an invalid command, user is sent back
+								
+								} else if (userCommand.equals("2")) { //manage savings
+								
+								} else if (userCommand.equals("3")) { //change username
+								
+								} else if (userCommand.equals("4")) { //change password
+								
+								} else if (userCommand.equals("5")) { // view bank ID#
+								
+								} else if (userCommand.equals("6")) { //log out
+								
+									System.out.println("Log out successful.\n");
+									loggingOut = true;
+									break;
+								
+								} else { System.out.println(systemMessage(1)); } //if user inputs an invalid command, user is sent back
+							
+							}
+							
+						} else { System.out.println(systemMessage(2));} //incorrect user/pass
+						
+					}
+					
+					if (a >= bankClients.size() - 1 && !loggingOut) {
+						System.out.println(systemMessage(2)); //incorrect user/pass
+						loggingOut = false;
+					}
+				
+				}
+				
+			} else if (userCommand.equals("3")) { //close the program
+				
+				System.out.println("Thank you for choosing to bank with the Bank of AP.");
+				System.exit(0);
+				
+			} else if (userCommand.equals("adminLogIn")) { //admin login
+				
+				System.out.println("Welcome, Admin. What would you like to do today?\n");
+				
+			} else {
+				
+				//if user inputs an invalid command, user is sent back
+				System.out.println(systemMessage(1));
+				
+			}
+			
+		}
+			
+	}
+
+}
