@@ -158,9 +158,6 @@ public class Main {
 		bankClients.add(new userInfo("Username1", hashPassword("Password1"), randomBankID(5), -21.89, 0.00));
 		bankClients.add(new userInfo("j3ffb3z0s", hashPassword("t43b35t4M4z0NC30"), randomBankID(5), 50274.07, 100000.07));
 		
-		System.out.println(bankClients.get(4));
-		
-		
 		//loops until the user enters the log out command
 		while (1 == 1) {
 					
