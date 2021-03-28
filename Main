@@ -188,8 +188,8 @@ public class Main {
 				newUser.setCheckingBal(0);
 				newUser.setSavingsBal(0);
 			
-				//repeats user information
-				System.out.println("Your username is : " + newUser.getUsername() + "\n" + "Your password is : " + newUser.getPassword() + "\n" + "Your unique 6 digit Bank ID # is : " + newUser.getBankID() + "\n");
+				//sends to main menu
+				System.out.println("Account creation successful. You will now be sent to the main menu.\n");
 				
 				bankClients.add(newUser);
 			
