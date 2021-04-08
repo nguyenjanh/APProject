@@ -37,7 +37,7 @@ public class binarySearch {
 		if (target == list.get(mid))
 			return mid;
 		else if (target < list.get(mid))
-			return binarySearch(list, target, min, max/2);
+			return binarySearch(list, target, min, mid);
 		else if (target > list.get(mid))
 			return binarySearch(list, target, mid, max);
 		return -1;
