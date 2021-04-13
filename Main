@@ -139,7 +139,7 @@ public class Main {
 		if (num == 4)
 			return "Please type in the amount you'd like to deposit.";
 		
-		return "";
+		return "ERROR";
 	}
 	
 	@SuppressWarnings({ "resource" })
@@ -290,6 +290,12 @@ public class Main {
 			} else if (userCommand.equals("adminLogIn")) { //admin login
 				
 				System.out.println("Welcome, Admin. What would you like to do today?\n");
+				
+				while (1 == 1) {
+					
+					
+					
+				}
 				
 			} else {
 				
