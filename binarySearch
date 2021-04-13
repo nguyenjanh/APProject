@@ -34,11 +34,13 @@ public class binarySearch {
 		if (mid == max && mid == min)
 			return -1;
 		
-		if (target == list.get(mid))
+		int temp = list.get(mid);
+		
+		if (target == temp)
 			return mid;
-		else if (target < list.get(mid))
+		else if (target < temp)
 			return binarySearch(list, target, min, mid);
-		else if (target > list.get(mid))
+		else if (target > temp)
 			return binarySearch(list, target, mid, max);
 		return -1;
 		
