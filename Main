@@ -125,7 +125,7 @@ public class Main {
 		
 	}
 
-	public static String systemMessage(int num) {
+	public static String systemMessage(int num) { //allows for system to easily access system messages
 		
 		if (num == 1)
 			return "That was not a valid command.\n";
@@ -152,11 +152,7 @@ public class Main {
 		
 		//preregistered users to allow for admin functionality demonstration
 		//username, password, bank ID#, checking balance, savings balance
-		bankClients.add(new userInfo("aprilFoods", hashPassword("Pokemon24"), randomBankID(5), 543.87, 593.34));
-		bankClients.add(new userInfo("rockyRoads", hashPassword("Sculpter513"), randomBankID(5), 8654.09, 10468.97));
-		bankClients.add(new userInfo("MargaretHam75", hashPassword("1L0V3C0D1N6"), randomBankID(5), 27.98, 159.06));
-		bankClients.add(new userInfo("Username1", hashPassword("Password1"), randomBankID(5), -21.89, 0.00));
-		bankClients.add(new userInfo("j3ffb3z0s", hashPassword("t43b35t4M4z0NC30"), randomBankID(5), 50274.07, 100000.07));
+		bankClients.add(new userInfo("aprilFoods", hashPassword("Pokemon24"), randomBankID(5), 543.87, 593.34)); bankClients.add(new userInfo("rockyRoads", hashPassword("Sculpter513"), randomBankID(5), 8654.09, 10468.97)); bankClients.add(new userInfo("MargaretHam75", hashPassword("1L0V3C0D1N6"), randomBankID(5), 27.98, 159.06)); bankClients.add(new userInfo("Username1", hashPassword("Password1"), randomBankID(5), -21.89, 0.00)); bankClients.add(new userInfo("j3ffb3z0s", hashPassword("t43b35t4M4z0NC30"), randomBankID(5), 50274.07, 100000.07));
 		
 		//loops until the user enters the log out command
 		while (1 == 1) {
@@ -217,7 +213,6 @@ public class Main {
 								System.out.println("Please type in the corresponding number to what you'd like to do. \n1. Manage Checking Account\n2. Manage Savings Account\n3. Change Username\n4. Change Password\n5. View Bank ID#\n6. Log Out");
 							
 								//reads command
-								readCommand = new Scanner(System.in);
 								userCommand = readCommand.nextLine();
 							
 								//available commands for the user
@@ -226,13 +221,11 @@ public class Main {
 									System.out.println("Your current balance is : $" + currentUser.getCheckingBal() + ". What would you like to do today?\n1. Deposit Funds\n2. Withdraw Funds\n3. Return to menu");
 								
 									//reads command
-									readCommand = new Scanner(System.in);
 									userCommand = readCommand.nextLine();
 								
 									if (userCommand.equals("1")) { //deposit funds
 									
 										System.out.println(systemMessage(4));
-										readCommand = new Scanner(System.in);
 										userCommand = readCommand.nextLine();
 										currentUser.setCheckingBal(currentUser.getCheckingBal() + Double.parseDouble(userCommand));
 									
@@ -241,7 +234,6 @@ public class Main {
 									} else if (userCommand.equals("2")) { //withdraw funds
 									
 										System.out.println(systemMessage(3));
-										readCommand = new Scanner(System.in);
 										userCommand = readCommand.nextLine();
 										currentUser.setCheckingBal(currentUser.getCheckingBal() - Double.parseDouble(userCommand));
 									
@@ -249,18 +241,83 @@ public class Main {
 									
 									} else if (userCommand.equals("3")) { //return
 									
-										System.out.println("\n");
+										System.out.println("\n"); //spacing
 									
 									} else { systemMessage(1); } //if user inputs an invalid command, user is sent back
 								
 								} else if (userCommand.equals("2")) { //manage savings
 								
+									System.out.println("Your current balance is : $" + currentUser.getSavingsBal() + ". What would you like to do today?\n1. Deposit Funds\n2. Withdraw Funds\n3. Return to menu");
+									
+									//reads command
+									userCommand = readCommand.nextLine();
+								
+									if (userCommand.equals("1")) { //deposit funds
+									
+										System.out.println(systemMessage(4));
+										userCommand = readCommand.nextLine();
+										currentUser.setSavingsBal(currentUser.getSavingsBal() + Double.parseDouble(userCommand));
+									
+										System.out.println("Your new balance is $" + currentUser.getSavingsBal());
+									
+									} else if (userCommand.equals("2")) { //withdraw funds
+									
+										System.out.println(systemMessage(3));
+										userCommand = readCommand.nextLine();
+										currentUser.setSavingsBal(currentUser.getSavingsBal() - Double.parseDouble(userCommand));
+									
+										System.out.println("Your new balance is $" + currentUser.getSavingsBal());
+									
+									} else if (userCommand.equals("3")) { //return
+									
+										System.out.println("\n"); //spacing
+									
+									} else { systemMessage(1); } //if user inputs an invalid command, user is sent back
+									
 								} else if (userCommand.equals("3")) { //change username
 								
+									System.out.println("Please enter your current username.");
+									
+									userCommand = readCommand.nextLine();
+									
+									if (userCommand.equals(currentUser.getUsername())) {
+										
+										System.out.println("Please enter a new username.");
+										
+										userCommand = readCommand.nextLine();
+										
+										//check database of usernames for originality
+										
+									} else {
+										
+										System.out.println(systemMessage(2)); //incorrect username
+										
+									}
+									
 								} else if (userCommand.equals("4")) { //change password
 								
+									System.out.println("Please enter your current password.");
+									
+									userCommand = readCommand.nextLine();
+									
+									if (hashPassword(userCommand).equals(currentUser.getPassword())) {
+										
+										System.out.println("Please enter a new password.");
+										
+										userCommand = readCommand.nextLine();
+										
+										//check database of passwords for originality
+										
+									} else {
+										
+										System.out.println(systemMessage(2)); //incorrect password
+										
+									}
+									
 								} else if (userCommand.equals("5")) { // view bank ID#
 								
+									System.out.println("Your unique 6 Digit Bank ID# is " + currentUser.getBankID());
+									
 								} else if (userCommand.equals("6")) { //log out
 								
 									System.out.println("Log out successful.\n");
@@ -293,7 +350,7 @@ public class Main {
 				
 				while (1 == 1) {
 					
-					
+					//to be implemented
 					
 				}
 				
