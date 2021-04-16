@@ -139,13 +139,72 @@ public class Main {
 		if (num == 4)
 			return "Please type in the amount you'd like to deposit.";
 		
+		if (num == 5)
+			return "Please type in a numerical value.";
+		
 		return "ERROR";
 	}
 	
+	public static boolean checkUsernames(ArrayList<userInfo> list, String user) {
+		
+		for (int a = 0; a < list.size(); a++)
+			if (user.equals(list.get(a).getUsername()))
+				return true;
+		return false;
+		
+	}
+	
+	public static boolean checkPasswords(ArrayList<userInfo> list, String pass) {
+		
+		for (int a = 0; a < list.size(); a++)
+			if (hashPassword(pass).equals(list.get(a).getPassword()))
+				return true;
+		return false;
+		
+	}
+	
+	public static ArrayList<userInfo> sort(ArrayList<userInfo> list) {
+		
+		for (int a = 0; a < list.size(); a++) {
+			
+			int min = Integer.MAX_VALUE, change = 0;
+			
+			//sets the lowest value integer to min
+			for (int b = a; b < list.size(); b++)
+				if (list.get(b).getBankID() < min) {
+					min = list.get(b).getBankID();
+					change = b;
+				}
+			
+			//swap
+			userInfo temp = list.get(change);
+			list.set(change, list.get(a));
+			list.set(a, temp);
+			
+		}
+		
+		return list;
+	}
+
+	public static int binarySearch(ArrayList<userInfo> list, int target, int min, int max) {
+		
+		int mid = (max + min) / 2;
+		
+		if (mid == max && mid == min)
+			return -1;
+		
+		if (target == list.get(mid).getBankID())
+			return mid;
+		else if (target < list.get(mid).getBankID())
+			return binarySearch(list, target, min, mid);
+		else if (target > list.get(mid).getBankID())
+			return binarySearch(list, target, mid, max);
+		return -1;
+		
+	}
+
 	@SuppressWarnings({ "resource" })
 	public static void main(String[] args) {
-		
-		boolean loggingOut = false;
 		
 		ArrayList<userInfo> bankClients = new ArrayList<userInfo>();
 		
@@ -157,9 +216,10 @@ public class Main {
 		while (1 == 1) {
 					
 			//begins the login/registration process
-			Scanner startUp = new Scanner(System.in);
+			Scanner readCommand = new Scanner(System.in);
 			System.out.println("Welcome to the Bank of AP. Please type in the corresponding number to what you'd like to do. \n1. Register an account\n2. Log in\n3. Close the program");
-			String userCommand = startUp.nextLine();
+			String userCommand = readCommand.nextLine();
+			boolean loggingOut = false;
 			
 			if (userCommand.equals("1")) { //registering an account
 			
@@ -188,7 +248,6 @@ public class Main {
 			} else if (userCommand.equals("2")) { //log in
 				
 				//takes in username as an input
-				Scanner readCommand = new Scanner(System.in);
 				System.out.println("Please enter your username.");
 				userCommand = readCommand.nextLine();
 				
@@ -225,16 +284,36 @@ public class Main {
 									if (userCommand.equals("1")) { //deposit funds
 									
 										System.out.println(systemMessage(4));
-										userCommand = readCommand.nextLine();
-										currentUser.setCheckingBal(currentUser.getCheckingBal() + Double.parseDouble(userCommand));
+										
+										while (1 == 1) {
+											
+											try {
+												userCommand = readCommand.nextLine();
+												currentUser.setCheckingBal(currentUser.getCheckingBal() + Double.parseDouble(userCommand));
+												break;
+											} catch(Exception e) {
+												System.out.println(systemMessage(5));
+											}
+										
+										}
 									
 										System.out.println("Your new balance is $" + currentUser.getCheckingBal());
 									
 									} else if (userCommand.equals("2")) { //withdraw funds
 									
 										System.out.println(systemMessage(3));
-										userCommand = readCommand.nextLine();
-										currentUser.setCheckingBal(currentUser.getCheckingBal() - Double.parseDouble(userCommand));
+										
+										while (1 == 1) {
+											
+											try {
+												userCommand = readCommand.nextLine();
+												currentUser.setCheckingBal(currentUser.getCheckingBal() - Double.parseDouble(userCommand));
+												break;
+											} catch(Exception e) {
+												System.out.println(systemMessage(5));
+											}
+										
+										}
 									
 										System.out.println("Your new balance is $" + currentUser.getCheckingBal());
 									
@@ -254,17 +333,37 @@ public class Main {
 									if (userCommand.equals("1")) { //deposit funds
 									
 										System.out.println(systemMessage(4));
-										userCommand = readCommand.nextLine();
-										currentUser.setSavingsBal(currentUser.getSavingsBal() + Double.parseDouble(userCommand));
+										
+										while (1 == 1) {
+											
+											try {
+												userCommand = readCommand.nextLine();
+												currentUser.setSavingsBal(currentUser.getSavingsBal() + Double.parseDouble(userCommand));
+												break;
+											} catch(Exception e) {
+												System.out.println(systemMessage(5));
+											}
+										
+										}
 									
 										System.out.println("Your new balance is $" + currentUser.getSavingsBal());
 									
 									} else if (userCommand.equals("2")) { //withdraw funds
 									
 										System.out.println(systemMessage(3));
-										userCommand = readCommand.nextLine();
-										currentUser.setSavingsBal(currentUser.getSavingsBal() - Double.parseDouble(userCommand));
-									
+										
+										while (1 == 1) {
+										
+											try {
+												userCommand = readCommand.nextLine();
+												currentUser.setSavingsBal(currentUser.getSavingsBal() - Double.parseDouble(userCommand));
+												break;
+											} catch(Exception e) {
+												System.out.println(systemMessage(5));
+											}
+										
+										}
+										
 										System.out.println("Your new balance is $" + currentUser.getSavingsBal());
 									
 									} else if (userCommand.equals("3")) { //return
@@ -281,11 +380,25 @@ public class Main {
 									
 									if (userCommand.equals(currentUser.getUsername())) {
 										
-										System.out.println("Please enter a new username.");
+										while (1 == 1) {
+											
+											System.out.println("Please enter a new username.");
+											
+											userCommand = readCommand.nextLine();
 										
-										userCommand = readCommand.nextLine();
+											if (!checkUsernames(bankClients, userCommand)) {
+											
+												currentUser.setUsername(userCommand);
+												System.out.println("Your username has been successfully changed.");
+												break;
+												
+											} else {
+											
+												System.out.println("The username you entered is unavailable, please enter a new username.");
+											
+											}
 										
-										//check database of usernames for originality
+										}
 										
 									} else {
 										
@@ -305,7 +418,9 @@ public class Main {
 										
 										userCommand = readCommand.nextLine();
 										
-										//check database of passwords for originality
+										currentUser.setPassword(hashPassword(userCommand));
+										
+										System.out.println("Your password has been successfully changed.");
 										
 									} else {
 										
@@ -333,9 +448,9 @@ public class Main {
 					
 					if (a >= bankClients.size() - 1 && !loggingOut) {
 						System.out.println(systemMessage(2)); //incorrect user/pass
-						loggingOut = false;
+						loggingOut = true;
 					}
-				
+					
 				}
 				
 			} else if (userCommand.equals("3")) { //close the program
@@ -345,11 +460,55 @@ public class Main {
 				
 			} else if (userCommand.equals("adminLogIn")) { //admin login
 				
-				System.out.println("Welcome, Admin. What would you like to do today?\n");
+				System.out.println("\nWelcome, Admin. What would you like to do today?");
+				
+				bankClients = sort(bankClients);
 				
 				while (1 == 1) {
 					
-					//to be implemented
+					System.out.println("1. View Clients\n2. Manage Clients\n3. Log Out");
+					userCommand = readCommand.nextLine();
+					
+					if (userCommand.equals("1")) {
+						
+						for (int a = 0; a < bankClients.size(); a++)
+							System.out.println(bankClients.get(a).toString());
+						
+						
+					} else if (userCommand.equals("2")) {
+						
+						System.out.println("Please enter the Client's 6 Digit BankID#.");
+						
+						while (1 == 1) {
+						
+							userCommand = readCommand.nextLine();
+							
+							int search = binarySearch(bankClients, Integer.parseInt(userCommand), bankClients.get(0).getBankID(), bankClients.get(bankClients.size() - 1).getBankID());
+						
+							if (search != -1) {
+								
+								userInfo tempUser = bankClients.get(search);
+								
+							} else {
+							
+								System.out.println("The BankID# you entered in not in our system. Please try again.");
+							
+							}
+						
+						}
+						
+					} else if (userCommand.equals("2")) {
+						
+						System.out.println("Log out successful.\n");
+						loggingOut = true;
+						break;
+						
+					} else {
+						
+						//if user inputs an invalid command, user is sent back
+						System.out.println(systemMessage(1));
+						
+					}
 					
 				}
 				
