@@ -145,7 +145,6 @@ public class Main {
 	@SuppressWarnings({ "resource" })
 	public static void main(String[] args) {
 		
-		
 		boolean loggingOut = false;
 		
 		ArrayList<userInfo> bankClients = new ArrayList<userInfo>();
