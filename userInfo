@@ -64,8 +64,7 @@ public class userInfo {
 	
 	@Override
 	public String toString() {
-		return "userInfo [username=" + username + ", password=" + password + ", bankID=" + bankID + ", checkingBal="
-				+ checkingBal + ", savingsBal=" + savingsBal + "]";
+		return "userInfo [bankID=" + bankID + ", checkingBal=" + checkingBal + ", savingsBal=" + savingsBal + ", username=" + username + ", password=" + password +"]";
 	}
 	
 	
