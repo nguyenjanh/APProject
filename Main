@@ -189,7 +189,7 @@ public class Main {
 	public static int binarySearch(ArrayList<userInfo> list, int target, int min, int max) {
 		
 		int mid = (min + max) / 2;
-		System.out.println(min + " " + mid + " " + max);
+		
 		if (mid == max && mid == min)
 			return -1;
 		
